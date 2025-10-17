@@ -4,7 +4,7 @@ Cryptonite is the official CTF team of MIT Manipal currently ranked #3 across In
 
 The forensics domain is focused on incident response, network traffic analysis, steganography and malware analysis for CTFs and practical incident response. This repository is a living resource list for trainees: tools, reference material, and CTF challenges grouped by domain.
 
-> [! NOTE]
+> [!NOTE]
 > This is a work in progress, check back periodically for updates and additions.
 
 The domain covers three main areas:
@@ -27,36 +27,26 @@ Every section will have a list of required information and a list of challenges,
 
 ## Essential tools
 
-- stego-toolkit (Docker image: https://github.com/DominicBreuker/stego-toolkit)
-    - One stop resource for any and all steg related challenges
-- steghide
-    - Used on JPG and WAV files with or without a password
-- jsteg
-    - Used only on JPG files without a password
-- zsteg
-    - Used only on PNG files without a password
-- openstego
-    - Used on many different kinds of files
-- stegseek
-    - Used as a wrapper around steghide to brute force passwords
-- stegsolve
-    - Used to analyze bitplanes of any image type
-- deepsound
-    - Used on WAV files with or without a password
-- wavsteg
-    - Used on WAV files without password
-- qrazybox
-    - Used to analyze reconstruct QR codes
-- stegsnow
-    - Used for whitespace steganography
-- zwsp-steg
-    - Used for zero width steganography
-- exiftool
-    - Used to view metadata of any file
-- binwalk
-    - Used to find files hidden inside other files
-- foremost
-    - Used to find files hidden inside other files
+stego-toolkit (Docker image: https://github.com/DominicBreuker/stego-toolkit)
+
+_One stop resource for any and all steg related challenges_
+
+| Tool        | File Types Supported        | Password Support        | Primary Function                                      |
+|--------------|-----------------------------|--------------------------|--------------------------------------------------------|
+| **steghide** | JPG, WAV                    | With/Without password    | Embed/extract data                                    |
+| **jsteg**    | JPG                         | No                       | Embed/extract data                                    |
+| **zsteg**    | PNG                         | No                       | Detect and extract hidden data                        |
+| **openstego**| Multiple                    | Yes                      | General-purpose steganography                         |
+| **stegseek** | JPG, WAV (via steghide)     | Brute force supported    | Password brute-forcing for steghide                   |
+| **stegsolve**| Any image                   | N/A                      | Analyze bitplanes and color channels                  |
+| **deepsound**| WAV                         | With/Without password    | Embed/extract data in audio                           |
+| **wavsteg**  | WAV                         | No                       | Embed/extract data in audio                           |
+| **qrazybox** | QR codes                    | N/A                      | Analyze and reconstruct QR codes                      |
+| **stegsnow** | Text (whitespace)           | Optional password        | Whitespace steganography                              |
+| **zwsp-steg**| Text (zero-width chars)     | No                       | Zero-width steganography                              |
+| **exiftool** | Any file                    | N/A                      | View and edit metadata                                |
+| **binwalk**  | Any file                    | N/A                      | Extract embedded files and data                       |
+| **foremost** | Any file                    | N/A                      | Carve and recover embedded or deleted files           |
 
 ## Recommended CTF challenges to do:
 
@@ -258,4 +248,5 @@ Questions: https://github.com/Azr43lKn1ght/DFIR-LABS/tree/main/Batman%20Investig
 - [Docker Docs](https://docs.docker.com/get-started/introduction/)
 - `regdmp` - highly useful tool for registry analysis. Dumps registry binaries as raw text: https://github.com/adoxa/regdump
 - `vol3-plugins` - repo for several useful Volatility **3** plugins that target common points of hiding data: https://github.com/spitfirerxf/vol3-plugins
+
 
