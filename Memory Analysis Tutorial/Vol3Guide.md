@@ -516,10 +516,6 @@ For a DFIR analyst this can help us to:
 
 ---
 
-Here’s a **fully detailed, untruncated and professionally formatted** explanation and analysis for
-
----
-
 ## **3.4 windows.cmdline — Command Line Arguments**
 
 
@@ -754,7 +750,6 @@ This gives us insights like:
 
    * `thumbcache_256.db` indicates Explorer thumbnail caching, which can reveal recently viewed image files.
 
-Here’s a detailed write-up for `windows.dumpfiles` in the same style as before:
 
 ---
 
@@ -813,7 +808,6 @@ This will extract all files that `filescan` identified, saving them to the `./du
 
 
 
-Here’s the detailed technical write-up for `windows.envars`:
 
 ---
 
@@ -1012,7 +1006,6 @@ In practice, this plugin provides a map of all registry hives in memory, serving
 
 ---
 
-Here’s a structured technical explanation for the `windows.malware.malfind` plugin with the requested style:
 
 ---
 
