@@ -1067,7 +1067,7 @@ From the `malfind` output, several insights emerge:
 
 # Putting It All Together
 
-Now that we've explored the essential Volatility plugins and understand how they work under the hood, it's time to put our knowledge to the test. Let's solve one of my favorite DFIR challenges that  demonstrates the power of memory forensics in a real-world investigation scenario. Here is the [Writeup](Memory%20Analysis%20Tutorial/Vol3Guide.md) to follow along and deepen your understanding of Volatility and memory analysis techniques.
+Now that we've explored the essential Volatility plugins and understand how they work under the hood, it's time to put our knowledge to the test. Let's solve one of my favorite DFIR challenges that  demonstrates the power of memory forensics in a real-world investigation scenario. Here is the [Writeup](https://github.com/Cryptonite-MIT/dfir-gita/blob/main/Memory%20Analysis%20Tutorial/MemLab6.md) to follow along and deepen your understanding of Volatility and memory analysis techniques.
 
 --- 
 
