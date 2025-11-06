@@ -9,13 +9,11 @@ The project features six main labs (Lab 1 through Lab 6), each presenting unique
 
 Today, we'll be tackling **Lab 6: The Reckoning** - widely considered one of the most comprehensive and challenging scenarios in the collection. This challenge will test our ability to correlate artifacts across multiple sources, think like an investigator, and leverage various Volatility plugins to reconstruct a complete narrative.
 
----
-
 ## Challenge Overview: Lab 6 - The Reckoning
 
 ### The Scenario
 
-We've received a memory dump from the Intelligence Bureau Department. According to their briefing, this evidence might contain secrets belonging to **David Benjamin**, an underworld gangster who's been on law enforcement's radar for quite some time. 
+We've received a memory dump from the Intelligence Bureau Department. According to their briefing, this evidence might contain secrets belonging to **David Benjamin**, an underworld gangster who's been on law enforcement's radar for quite some time.
 
 The memory dump was captured from one of David's associates - a worker who was apprehended by the FBI earlier this week. Our role as digital forensic investigators is to analyze this memory snapshot and uncover any incriminating evidence that could help build a case against the criminal organization.
 
@@ -36,8 +34,6 @@ The FBI has provided us with one crucial lead: **David communicated with his wor
 >
 > *Note: This challenge is composed of 1 flag split into 2 parts.*
 
----
-
 ## Investigation Strategy
 
 Before we begin our analysis, let's outline our investigative approach. Based on the scenario and our knowledge of the available plugins, here's our game plan:
@@ -55,8 +51,6 @@ Before we begin our analysis, let's outline our investigative approach. Based on
 
 Let's begin our investigation!
 
----
-
 ## Part 1: Finding the First Flag Fragment
 
 
@@ -69,9 +63,6 @@ vol -f MemoryDump_Lab6.raw windows.info
  The system is running **Windows 7 SP1 x64**. This information is crucial as it tells us we're dealing with a 64-bit architecture and helps Volatility correctly parse kernel structures.
 
 ![OS Information Output](images/os-info.png)
-
----
-
 
 Let's get a comprehensive view of what processes were running at the time of capture:
 
@@ -140,16 +131,13 @@ PID     PPID    ImageFileName   Offset(V)       Threads Handles SessionId       
 Scanning through the output, several processes immediately catch our attention:
 
 - **chrome.exe** (PID: 1804) - Google Chrome browser
-- **firefox.exe** (PID: 2648) - Mozilla Firefox browser  
+- **firefox.exe** (PID: 2648) - Mozilla Firefox browser
 - **WinRAR.exe** (PID: 3012) - Archive compression utility
 - **cmd.exe** (PID: 1648) - Command prompt
 
 The presence of two different browsers is interesting, it suggests the user may have been compartmentalizing their activities or switching between browsers for different purposes. The WinRAR process indicates file compression/extraction activity, and the cmd.exe process suggests command-line operations were performed.
 
 Given the FBI's hint about internet communication, the browser processes are our primary targets. However, WinRAR is also noteworthy - criminals often use archives to package data for exfiltration or to receive encrypted materials.
-
----
-
 
 Since we identified Chrome as one of the active browsers, let's investigate its browsing history. For this, we'll use a specialized Volatility plugin called **chromehistory**.
 
@@ -190,16 +178,11 @@ https://pastebin.com/RSGSi1hk
 
 This URL is our first major lead. Let's see what's in that paste.
 
----
-
-
 When we access the Pastebin link (or if we extract it from memory strings), we discover it contains another URL - a Google Docs link:
 
 ```
 https://www.google.com/url?q=https://docs.google.com/document/d/1lptcksPt1l_w7Y29V4o6vkEnHToAPqiCkgNNZfS9rCk/edit?usp%3Dsharing&sa=D&source=hangouts&ust=1566208765722000&usg=AFQjCNHXd6Ck6F22MNQEsxdZo21JayPKug
 ```
-
----
 
 ### Step 5: Examining the Google Document
 
@@ -220,10 +203,7 @@ The document also contains a cryptic message:
 
  The decryption key was supposedly sent via email, but we don't have access to the email client's memory or messages. We need to find this key somewhere in the memory dump.
 
----
-
-
-At this point, we've hit a roadblock. Traditional Volatility plugins haven't revealed the decryption key. 
+At this point, we've hit a roadblock. Traditional Volatility plugins haven't revealed the decryption key.
 
 The document mentioned "The key is..." - let's search for that exact phrase in the raw memory dump:
 
@@ -241,9 +221,6 @@ When David's associate opened the email containing the key, the email client (li
 
  This demonstrates a crucial concept in memory forensics - *persistence of data*. Data doesn't immediately disappear from RAM when it's closed or deleted. It remains until that memory region is overwritten by other processes.
 
----
-
-
 Now armed with the complete Mega.nz URL, we can download the file:
 
 ```
@@ -255,9 +232,6 @@ The file downloads as: **flag1.png**
 However,  The image won't open! The file appears to be corrupted.
 
 ![Corrupted Image Error](images/corrupt.png)
-
----
-
 
 When a file won't open, the first thing to check is the file header (also called "magic bytes"). Let's examine the PNG file with a hex editor:
 
@@ -291,10 +265,6 @@ This could be:
 - Transmission error
 - Anti-forensics technique
 - Simple file corruption
-
----
-
-
 
 Let's fix the corrupted byte using a hex editor (HxD, 010 Editor, or `hexedit`):
 
@@ -333,9 +303,6 @@ CommandLine: "C:\Program Files\WinRAR\WinRAR.exe" "C:\Users\Jaffa\Desktop\flag.r
 ```
 
 The user (username: Jaffa) opened a RAR archive called `flag.rar` from the Desktop. This archive likely contains the second part of our flag!
-
----
-
 
 Let's scan memory for the RAR file:
 
@@ -385,11 +352,7 @@ Variable: RAR_password
 Value: easypeasyvirus
 ```
 
- Someone (likely David's associate, or David himself) stored the RAR password in an environment variable for easy access. This is a significant operational security failure that just gave us exactly what we need!
-
-
----
-
+Someone (likely David's associate, or David himself) stored the RAR password in an environment variable for easy access. This is a significant operational security failure that just gave us exactly what we need!
 
 Now let's extract the RAR archive with our newfound password:
 
@@ -416,6 +379,4 @@ inctf{thi5_cH4LL3Ng3_!s_g0nn4_b3_aN_Am4zINg_!_i_gU3Ss???_}
 
 
 And thus we used memory forensics to solve this!
-
----
 
